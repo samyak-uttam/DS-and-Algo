@@ -1,65 +1,51 @@
 #include<iostream>
 using namespace std;
+#define MAX 100
 
-struct Node
-{
-	int data;
-	Node *next;
-};
-Node *top = NULL;
-int size = 0;
+int Stack[MAX], top = -1;
 
 void push()
 {
-	Node *new_node = new(Node);
-	cout<<"Enter the data: ";
-	cin>>new_node->data;
-	new_node->next = NULL;
-	if(top == NULL)
-		top = new_node;
-	else
+	if(top == (MAX - 1))
 	{
-		new_node->next = top;
-		top = new_node;
+		cout<<"Stack Overflow.\n";
+		return;
 	}
-	size++;
+	cout<<"Enter data: ";
+	cin>>Stack[++top];
 }
 
 void pop()
 {
-	if(top == NULL)
+	if(top == -1)
 	{
-		cout<<"No elements, can't delete.\n";
+		cout<<"Stack Underflow.\n";
 		return;
 	}
-	Node *temp = top;
-	top = top->next;
-	cout<<temp->data<<" deleted.\n";
-	delete(temp);
-	size--;
+	cout<<Stack[top]<<"deleted\n";
+	top--;
 }
 
 bool isEmpty()
 {
-	return top == NULL;
+	if(top < 0)
+		return true;
+	else
+		return false;
 }
 
 int peek()
 {
 	if(!isEmpty())
-		return top->data;
+		return Stack[top];
 	else
-		exit(1);
+		exit(0);
 }
 
 void printStack()
 {
-	Node *temp = top;
-	while(temp != NULL)
-	{
-		cout<<temp->data<<" ";
-		temp = temp->next;
-	}
+	for(int i = top; i >= 0; i--)
+		cout<<Stack[i]<<" ";
 	cout<<endl;
 }
 

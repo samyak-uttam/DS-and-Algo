@@ -44,12 +44,12 @@ void insertAfter()
 	cout<<"Enter the position you want to insert after: ";
 	int pos;
 	cin>>pos;
-	if(pos < 1 || pos > size)
+	if(pos < 0 || pos > size)
 	{
 		cout<<"wrong position.\n";
 		return;
 	}
-	if(pos == 1)
+	if(pos == 0)
 		push();
 	else if(pos == size)
 		append();
@@ -113,7 +113,7 @@ void delAfter()
 		cout<<"No elements, can't delete.\n";
 		return;
 	}
-	cout<<"Enter the position of the elemnet you want to delete: ";
+	cout<<"Enter the position of the element you want to delete: ";
 	int pos;
 	cin>>pos;
 	if(pos < 1 || pos > size)

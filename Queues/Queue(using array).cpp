@@ -1,65 +1,48 @@
 #include<iostream>
 using namespace std;
+#define MAX 100
 
-struct Node
-{
-	int data;
-	Node *next;
-};
-Node *front = NULL, *rear = NULL;
-int size = 0;
+int Queue[MAX], front = 0, rear = 0;
 
 void enQueue()
 {
-	Node *new_node = new(Node);
-	cout<<"Enter the data: ";
-	cin>>new_node->data;
-	new_node->next = NULL;
-	if(rear == NULL)
-		front = rear = new_node;
-	else
+	if(rear == MAX)
 	{
-		rear->next = new_node;
-		rear = new_node;
+		cout<<"Queue is full\n";
+		return;
 	}
-	size++;
+	cout<<"Enter data: ";
+	cin>>Queue[rear++];
 }
 
 void deQueue()
 {
-	if(front == NULL)
+	if(front == rear)
 	{
-		cout<<"No elements, can't delete.\n";
+		cout<<"Queue is empty\n";
 		return;
 	}
-	Node *temp = front;
-	front = front->next;
-	cout<<temp->data<<" deleted.\n";
-	if(front == NULL)
-		rear = NULL;
-	delete(temp);
-	size--;
+	cout<<Queue[front]<<" deleted\n";
+	for(int i = 0; i < rear - 1; i++)
+		Queue[i] = Queue[i+1];
+	rear--;
 }
 
 bool isEmpty()
 {
-	return front == rear == NULL;
+	return front == rear;
 }
 
 void printQueue()
 {
-	Node *temp = front;
-	while(temp != NULL)
-	{
-		cout<<temp->data<<" ";
-		temp = temp->next;
-	}
-	cout<<endl;
+	for(int i = front; i < rear; i++)
+		cout<<Queue[i]<<" ";
+    cout<<endl;
 }
 
 int main()
 {
-    cout<<"Enter 1 for enQueue,\n";
+	cout<<"Enter 1 for enQueue,\n";
     cout<<"Enter 2 for deQueue,\n";
     cout<<"Enter 3 for isEmpty,\n";
     cout<<"Enter 4 for printing the queue,\n";

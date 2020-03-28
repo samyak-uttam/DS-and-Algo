@@ -5,9 +5,8 @@ struct Node
 {
 	int data;
 	Node *next;
-	Node *prev;
 };
-Node *head = NULL;
+Node *last = NULL;
 int size = 0;
 
 void push()
@@ -15,11 +14,16 @@ void push()
 	Node *new_node = new(Node);
 	cout<<"Enter the data: ";
 	cin>>new_node->data;
-	new_node->prev = NULL;
-	new_node->next = head;
-	if(head != NULL)
-		head->prev = new_node;
-	head = new_node;
+	if(last == NULL)
+	{
+		new_node->next = new_node;
+		last = new_node;
+	}
+	else
+	{
+		new_node->next = last->next;
+		last->next = new_node;
+	}
 	size++;
 }
 
@@ -28,18 +32,16 @@ void append()
 	Node *new_node = new(Node);
 	cout<<"Enter the data: ";
 	cin>>new_node->data;
-	new_node->prev = NULL;
-	new_node->next = NULL;
-	if(head == NULL)
-		head = new_node;
+	if(last == NULL)
+	{
+		new_node->next = new_node;
+	}
 	else
 	{
-		Node *temp = head;
-		while(temp->next != NULL)
-			temp = temp->next;
-		temp->next = new_node;
-		new_node->prev = temp;
+		new_node->next = last->next;
+		last->next = new_node;
 	}
+	last = new_node;
 	size++;
 }
 
@@ -62,27 +64,31 @@ void insertAfter()
 		Node *new_node = new(Node);
 		cout<<"Enter the data: ";
 		cin>>new_node->data;
-		Node *temp = head;
+		new_node->next = NULL;
+		Node *temp = last->next;
 		for(int i = 0; i < pos-1; i++)
 			temp = temp->next;
 		new_node->next = temp->next;
-		temp->next->prev = new_node;
 		temp->next = new_node;
-		new_node->prev = temp;
 		size++;
 	}
 }
 
 void delBeg()
 {
-	if(head == NULL)
+	if(last == NULL)
 	{
 		cout<<"No elements, can't delete.\n";
 		return;
 	}
-	Node *temp = head;
-	head = head->next;
-	head->prev = NULL;
+	if(last->next == last)
+    {
+        cout<<last->data<<" deleted.\n";
+        last = NULL;
+        return;
+    }
+	Node *temp = last->next;
+	last->next = temp->next;
 	cout<<temp->data<<" deleted.\n";
 	delete(temp);
 	size--;
@@ -90,31 +96,31 @@ void delBeg()
 
 void delEnd()
 {
-	if(head == NULL)
+	if(last == NULL)
 	{
 		cout<<"No elements, can't delete.\n";
 		return;
 	}
-	Node *temp = head;
-	if(head->next == NULL)
-	{
-
-		cout<<temp->data<<" deleted.\n";
-		delete(temp);
-		head = NULL, size--;
-		return;
-	}
-	while(temp->next->next != NULL)
-		temp = temp->next;
-	cout<<temp->next->data<<" deleted.\n";
-	delete(temp->next);
-	temp->next = NULL;
-	size--;
+	if(last->next == last)
+    {
+        cout<<last->data<<" deleted.\n";
+        last = NULL;
+        return;
+    }
+    Node *temp = last->next;
+    while(temp->next != last)
+    	temp = temp->next;
+    temp->next = last->next;
+    Node *temp1 = last;
+    cout<<last->data<<" deleted.\n";
+    delete(temp1);
+    last = temp;
+    size--;
 }
 
 void delAfter()
 {
-	if(head == NULL)
+	if(last == NULL)
 	{
 		cout<<"No elements, can't delete.\n";
 		return;
@@ -133,11 +139,13 @@ void delAfter()
 		delEnd();
 	else
 	{
-		Node *temp = head;
+		Node *temp = last->next, *prev = last->next;
 		for(int i = 0; i < pos-1; i++)
+		{
+			prev = temp;
 			temp = temp->next;
-		temp->next->prev = temp->prev;
-		temp->prev->next = temp->next;
+		}
+		prev->next = temp->next;
 		cout<<temp->data<<" deleted.\n";
 		delete(temp);
 		size--;
@@ -146,11 +154,15 @@ void delAfter()
 
 void printList()
 {
-	Node *temp = head;
-	while(temp != NULL)
+	if(last != NULL)
 	{
+        Node *temp = last->next;
+		while(temp != last)
+		{
+			cout<<temp->data<<" ";
+			temp = temp->next;
+		}
 		cout<<temp->data<<" ";
-		temp = temp->next;
 	}
 	cout<<endl;
 }
@@ -194,7 +206,7 @@ int main()
                 printList();
                 break;
             case 8:
-            	cout<<"Size of the Doubly Linked List is: "<<size<<"\n";
+            	cout<<"Size of the Circular Linked List is: "<<size<<"\n";
             default:
                 cout<<"wrong choice"<<endl;
                 exit(0);
