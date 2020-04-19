@@ -9,7 +9,7 @@ struct Node
 
 Node* construct(int arr[], Node *root, int i, int n)
 {
-	if(i < n)
+	if (i < n)
 	{
 		Node* temp = new(Node);
 		temp->data = arr[i];
@@ -25,71 +25,84 @@ Node* construct(int arr[], Node *root, int i, int n)
 
 Node* create()
 {
-	cout<<"Enter data: ";
+	cout << "Enter data: ";
 	int x;
-	cin>>x;
-	if(x == -1)
+	cin >> x;
+	if (x == -1)
 		return NULL;
 	Node *new_node = new Node();
 	new_node->data = x;
-	cout<<"Enter left child of "<<x<<"\n";
+	cout << "Enter left child of " << x << "\n";
 	new_node->left = create();
-	cout<<"Enter right child of "<<x<<"\n";
+	cout << "Enter right child of " << x << "\n";
 	new_node->right = create();
 	return new_node;
 }
 
 bool search(Node *root, int key)
 {
-	if(root == NULL)
+	if (root == NULL)
 		return false;
-	if(root->data == key)
+	if (root->data == key)
 		return true;
 
 	bool ans1 = search(root->left, key);
 
-	if(ans1) return true;
+	if (ans1) return true;
 
 	return search(root->right, key);
 }
 
 void preorder(Node *node)
 {
-	if(node == NULL)
+	if (node == NULL)
 		return;
-	cout<<node->data<<" ";
+	cout << node->data << " ";
 	preorder(node->left);
 	preorder(node->right);
 }
 
 void inorder(Node *node)
 {
-	if(node == NULL)
+	if (node == NULL)
 		return;
 	inorder(node->left);
-	cout<<node->data<<" ";
+	cout << node->data << " ";
 	inorder(node->right);
 }
 
 void postorder(Node *node)
 {
-	if(node == NULL)
+	if (node == NULL)
 		return;
 	postorder(node->left);
 	postorder(node->right);
-	cout<<node->data<<" ";
+	cout << node->data << " ";
+}
+
+int height(Node *root)
+{
+	if (root == NULL)
+		return 0;
+
+	int h1 = height(root->left) + 1;
+	int h2 = height(root->right) + 1;
+
+	return max(h1, h2);
 }
 
 int main()
 {
 	int arr[] = {1, 2, 3, 4, 5, 6, 6, 6, 6};
 	int n = sizeof(arr) / sizeof(arr[0]);
-	Node *root = construct(arr, root, 0, n);
+	Node *root = NULL;
+	root = construct(arr, root, 0, n);
 	preorder(root);
-	cout<<endl;
+	cout << endl;
 	inorder(root);
-	cout<<endl;
+	cout << endl;
 	postorder(root);
-	cout<<endl;
-	cout<<search(root, 6);
+	cout << endl;
+	cout << search(root, 6);
+	cout << "\nHeight of tree is: " << height(root);
 }

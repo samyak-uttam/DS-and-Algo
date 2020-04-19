@@ -167,7 +167,7 @@ int main()
     cout<<"Enter 8 for finding the size of the list.\n";
 	while(1)
     {
-        cout<<"Enter you choice: ";
+        cout<<"Enter your choice: ";
         int choice, pos;
         cin>>choice;
         switch(choice)

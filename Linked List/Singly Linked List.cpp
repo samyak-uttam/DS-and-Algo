@@ -140,6 +140,24 @@ void delAfter()
 	}
 }
 
+void reverse()
+{
+	Node *prev = NULL;
+	Node *current = head;
+	Node *next;
+
+	while(current != NULL)
+	{
+		next = current->next;
+
+		current->next = prev;
+
+		prev = current;
+		current = next;
+	}
+	head = prev;
+}
+
 void printList()
 {
 	Node *temp = head;
@@ -159,11 +177,12 @@ int main()
     cout<<"Enter 4 for deleting from beginning,\n";
     cout<<"Enter 5 for deleting from end,\n";
     cout<<"Enter 6 for deleting from particular position,\n";
-    cout<<"Enter 7 for printing the list,\n";
-    cout<<"Enter 8 for finding the size of the list.\n";
+    cout<<"Enter 7 for reversing the Linked list\n";
+    cout<<"Enter 8 for printing the list,\n";
+    cout<<"Enter 9 for finding the size of the list.\n";
 	while(1)
     {
-        cout<<"Enter you choice: ";
+        cout<<"Enter your choice: ";
         int choice, pos;
         cin>>choice;
         switch(choice)
@@ -187,9 +206,12 @@ int main()
                 delAfter();
                 break;
             case 7:
+            	reverse();
+            	break;
+            case 8:
                 printList();
                 break;
-            case 8:
+            case 9:
             	cout<<"Size of the Linked List is: "<<size<<"\n";
             default:
                 cout<<"wrong choice"<<endl;
