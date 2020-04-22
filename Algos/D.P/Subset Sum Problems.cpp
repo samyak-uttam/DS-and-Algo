@@ -1,6 +1,23 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+void maxSubsetSum(int arr[], int n)
+{
+	if (n == 1)
+	{
+		cout << "\nMaximum Subset sum is: " << arr[0];
+		return;
+	}
+	int dp[n];
+	dp[0] = arr[0];
+	dp[1] = max(arr[0], arr[1]);
+	for (int i = 2; i < n; i++)
+	{
+		dp[i] = max(max(dp[i - 1], arr[i]), dp[i - 2] + arr[i]);
+	}
+	cout << "\nMaximum Subset sum is: " << dp[n - 1];
+}
+
 void subsetSum(int s, int arr[], int n)
 {
 	bool dp[n + 1][s + 1];
@@ -46,5 +63,11 @@ int main()
 	int s = 11;
 	int arr[] = {2, 3, 7, 8, 10};
 	int n = sizeof(arr) / sizeof(arr[0]);
+	// Whether there is a subset of the array with given sum;
 	subsetSum(s, arr, n);
+
+	// Subset of non-adjacent elements having maximum sum
+	int a[] = { -2, 1, 3, -4, 5};
+	n = sizeof(a) / sizeof(a[0]);
+	maxSubsetSum(a, n);
 }

@@ -1,5 +1,6 @@
 #include<iostream>
 using namespace std;
+// Time complexity of linear search is O(n) and fo binary search is O(log n)
 
 int linearSearch(int arr[], int size, int no)
 {

@@ -1,5 +1,10 @@
 #include<bits/stdc++.h>
 using namespace std;
+/* Time complexity -
+	D.F.S - O(V+E)
+	B.F.S - O(V+E)
+	V - no. of vertices, E - no. of edges
+*/
 
 class Graph
 {
@@ -7,11 +12,11 @@ class Graph
 	vector<int> *graph;
 	void DFSUtil(int v, bool visited[]);
 
-	public:
-		Graph(int V);
-		void addEdge(int v, int w);
-		void DFS();
-		void BFS(int s);
+public:
+	Graph(int V);
+	void addEdge(int v, int w);
+	void DFS();
+	void BFS(int s);
 };
 
 Graph::Graph(int V)
@@ -28,12 +33,12 @@ void Graph::addEdge(int v, int w)
 void Graph::DFSUtil(int v, bool visited[])
 {
 	visited[v] = true;
-	cout<<v<<" ";
+	cout << v << " ";
 
 	vector<int>::iterator i;
-	for(i = graph[v].begin(); i < graph[v].end(); i++)
+	for (i = graph[v].begin(); i < graph[v].end(); i++)
 	{
-		if(!visited[*i])
+		if (!visited[*i])
 			DFSUtil(*i, visited);
 	}
 }
@@ -43,9 +48,9 @@ void Graph::DFS()
 	bool visited[V] = {false};
 
 	// taking loop for the case of disconnected graphs
-	for(int i = 0; i < V; i++)
+	for (int i = 0; i < V; i++)
 	{
-		if(!visited[i])
+		if (!visited[i])
 			DFSUtil(i, visited);
 	}
 }
@@ -62,15 +67,15 @@ void Graph::BFS(int s)
 
 	vector<int>::iterator i;
 
-	while(!queue.empty())
+	while (!queue.empty())
 	{
 		s = queue.front();
-		cout<<s<<" ";
+		cout << s << " ";
 		queue.pop_front();
 
-		for(i = graph[s].begin(); i != graph[s].end(); i++)
+		for (i = graph[s].begin(); i != graph[s].end(); i++)
 		{
-			if(!visited[*i])
+			if (!visited[*i])
 			{
 				queue.push_back(*i);
 				visited[*i] = true;
@@ -89,9 +94,9 @@ int main()
 	g.addEdge(2, 3);
 	g.addEdge(3, 3);
 
-	cout<<"The DFS is (starting from vertex 2) \n";
+	cout << "The DFS is (starting from vertex 2) \n";
 	g.DFS();
-	cout<<endl;
+	cout << endl;
 	g.BFS(2);
 	return 0;
 }

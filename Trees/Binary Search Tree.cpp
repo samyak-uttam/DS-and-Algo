@@ -1,6 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// Time complexity of search, insertion and deletion is O(h),
+// where h is the height of the tree
+
 struct Node
 {
 	int data;
