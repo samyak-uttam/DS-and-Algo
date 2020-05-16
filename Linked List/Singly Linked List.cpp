@@ -165,6 +165,39 @@ void reverse()
 	head = prev;
 }
 
+void printMiddle()
+{
+	Node *ptr1 = head, *ptr2 = head;
+	while (ptr2 != NULL && ptr2->next != NULL)
+	{
+		ptr1 = ptr1->next;
+		ptr2 = ptr2->next->next;
+	}
+	cout << ptr1->data << "\n";
+}
+
+void rotate(int k)
+{
+	if (k == 0)
+		return;
+	Node *cur = head;
+	int count = 1;
+	while (count < k && cur != NULL)
+	{
+		cur = cur->next;
+		count++;
+	}
+	if (cur == NULL)
+		return;
+	Node *kthNode = cur;
+
+	while (cur->next != NULL)
+		cur = cur->next;
+	cur->next = head;
+	head = kthNode->next;
+	kthNode->next = NULL;
+}
+
 void printList()
 {
 	Node *temp = head;
@@ -173,7 +206,7 @@ void printList()
 		cout << temp->data << " ";
 		temp = temp->next;
 	}
-	cout << endl;
+	cout << "\n";
 }
 
 int main()
@@ -185,8 +218,10 @@ int main()
 	cout << "Enter 5 for deleting from end,\n";
 	cout << "Enter 6 for deleting from particular position,\n";
 	cout << "Enter 7 for reversing the Linked list\n";
-	cout << "Enter 8 for printing the list,\n";
-	cout << "Enter 9 for finding the size of the list.\n";
+	cout << "Enter 8 for finding the middle element of the list\n";
+	cout << "Enter 9 for rotating the list\n";
+	cout << "Enter 10 for printing the list,\n";
+	cout << "Enter 11 for finding the size of the list.\n";
 	while (1)
 	{
 		cout << "Enter your choice: ";
@@ -216,12 +251,20 @@ int main()
 			reverse();
 			break;
 		case 8:
-			printList();
+			printMiddle();
 			break;
 		case 9:
+			int k;
+			cout << "Enter no times to rotate the list: ";
+			cin >> k;
+			rotate(k);
+		case 10:
+			printList();
+			break;
+		case 11:
 			cout << "Size of the Linked List is: " << size << "\n";
 		default:
-			cout << "wrong choice" << endl;
+			cout << "wrong choice" << "\n";
 			exit(0);
 		}
 	}
