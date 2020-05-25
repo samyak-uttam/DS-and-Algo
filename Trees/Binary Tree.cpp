@@ -1,4 +1,4 @@
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
 struct Node
@@ -91,9 +91,51 @@ int height(Node *root)
 	return max(h1, h2);
 }
 
+// Level order(Breadth first) traversal of a tree
+// using recursion
+void printCurLevel(Node *root, int level)
+{
+	if (root == NULL)
+		return;
+	if (level == 1)
+		cout << root->data << " ";
+	else
+	{
+		printCurLevel(root->left, level - 1);
+		printCurLevel(root->right, level - 1);
+	}
+}
+
+void levelOrder1(Node *root)
+{
+	int h = height(root);
+	for (int i = 1; i <= h; i++)
+		printCurLevel(root, i);
+}
+
+// using queue
+void levelOrder2(Node *root)
+{
+	if (root == NULL)
+		return;
+	queue<Node *> q;
+	q.push(root);
+	while (!q.empty())
+	{
+		Node *node = q.front();
+		cout << node->data << " ";
+		q.pop();
+
+		if (node->left != NULL)
+			q.push(node->left);
+		if (node->right != NULL)
+			q.push(node->right);
+	}
+}
+
 int main()
 {
-	int arr[] = {1, 2, 3, 4, 5, 6, 6, 6, 6};
+	int arr[] = {1, 2, 3, 4, 5, 6};
 	int n = sizeof(arr) / sizeof(arr[0]);
 	Node *root = NULL;
 	root = construct(arr, root, 0, n);
@@ -105,4 +147,6 @@ int main()
 	cout << endl;
 	cout << search(root, 6);
 	cout << "\nHeight of tree is: " << height(root);
+	cout << "\nLevel order traversal: ";
+	levelOrder2(root);
 }

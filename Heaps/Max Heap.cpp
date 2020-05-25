@@ -20,7 +20,7 @@ int right(int i)
 	return (2 * i + 2);
 }
 
-int getMin()
+int getMax()
 {
 	return arr[0];
 }
