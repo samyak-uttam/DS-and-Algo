@@ -1,4 +1,4 @@
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
 // Capacity and current size of the heap
@@ -58,7 +58,33 @@ void heapify(int i)
 	}
 }
 
-void deleteKey()
+int extractMax()
+{
+	if (size <= 0)
+		return -1;
+
+	int x = arr[0];
+	swap(arr[0], arr[size - 1]);
+	size--;
+	heapify(0);
+	return x;
+}
+
+// removes element from position x in max heap
+void deleteKey(int i)
+{
+	if (i < 0 || i >= size)
+		return;
+	arr[i] = INT_MAX;
+	while (i != 0 && arr[parent(i)] < arr[i])
+	{
+		swap(arr[parent(i)], arr[i]);
+		i = parent(i);
+	}
+	extractMax();
+}
+
+void deleteMax()
 {
 	swap(arr[--size], arr[0]);
 	heapify(0);
@@ -81,7 +107,9 @@ int main()
 {
 	createMaxHeap();
 	printArr();
-	deleteKey();
+	deleteKey(1);
 	printArr();
+	deleteMax();
+	cout << extractMax();
 	return 0;
 }

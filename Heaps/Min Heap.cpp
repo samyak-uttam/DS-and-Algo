@@ -1,4 +1,4 @@
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
 // Capacity and current size of the heap
@@ -58,7 +58,33 @@ void heapify(int i)
 	}
 }
 
-void deleteKey()
+int extractMin()
+{
+	if (size <= 0)
+		return -1;
+
+	int x = arr[0];
+	swap(arr[0], arr[size - 1]);
+	size--;
+	heapify(0);
+	return x;
+}
+
+// removes element from position x in min heap
+void deleteKey(int i)
+{
+	if (i < 0 || i >= size)
+		return;
+	arr[i] = INT_MIN;
+	while (i != 0 && arr[parent(i)] > arr[i])
+	{
+		swap(arr[parent(i)], arr[i]);
+		i = parent(i);
+	}
+	extractMin();
+}
+
+void deleteMin()
 {
 	swap(arr[--size], arr[0]);
 	heapify(0);
@@ -81,7 +107,9 @@ int main()
 {
 	createMinHeap();
 	printArr();
-	deleteKey();
+	deleteKey(2);
 	printArr();
+	deleteMin();
+	cout << extractMin();
 	return 0;
 }

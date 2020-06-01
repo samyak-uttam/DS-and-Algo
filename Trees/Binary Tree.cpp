@@ -133,6 +133,25 @@ void levelOrder2(Node *root)
 	}
 }
 
+// Check whether tree is balanced or not
+bool util(Node *root, bool &ans)
+{
+	if (root == NULL)
+		return 0;
+	int l = util(root->left, ans);
+	int r = util(root->right, ans);
+	if (abs(l - r) > 1)
+		ans = 0;
+	return max(l, r) + 1;
+}
+
+bool isBalanced(Node *root)
+{
+	bool ans = true;
+	util(root, ans);
+	return ans;
+}
+
 int main()
 {
 	int arr[] = {1, 2, 3, 4, 5, 6};
@@ -149,4 +168,5 @@ int main()
 	cout << "\nHeight of tree is: " << height(root);
 	cout << "\nLevel order traversal: ";
 	levelOrder2(root);
+	cout << "\n" << isBalanced(root);
 }
