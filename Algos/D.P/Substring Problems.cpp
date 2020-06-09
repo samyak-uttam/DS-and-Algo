@@ -69,10 +69,51 @@ string longestPalSubStrDP(string s, int l)
 	return s.substr(start, maxLen);
 }
 
+
+// Longest common substring
+// using recursion
+string a = "acdghr", b = "abcdgh";
+
+int lcs(int i, int j, int x)
+{
+	if (i == 0 || j == 0)
+		return 0;
+	if (a[i - 1] == b[j - 1])
+		x = max(x, lcs(i - 1, j - 1, x + 1));
+	x = max(x, max(lcs(i, j - 1, 0), lcs(i - 1, j, 0)));
+	return x;
+}
+
+// using Dynamic Programming
+int LCS(int m, int n)
+{
+	int dp[m + 1][n + 1];
+	int ans = 0;
+	for (int i = 0; i <= m; i++)
+	{
+		for (int j = 0; j <= n; j++)
+		{
+			if (i == 0 || j == 0)
+				dp[i][j] = 0;
+			else if (a[i - 1] == b[j - 1])
+			{
+				dp[i][j] = dp[i - 1][j - 1] + 1;
+				ans = max(ans, dp[i][j]);
+			}
+			else
+				dp[i][j] = 0;
+		}
+	}
+	return ans;
+}
+
 int main()
 {
 	string str = "aaaabbaa";
 	int l = str.length();
-	cout << longestPalSubStrDP(str, l);
+	cout << "Longest Palindromic Substring: " << longestPalSubStrDP(str, l);
+
+	int m = a.length(), n = b.length();
+	cout << "\nLongest Common Substring: " << LCS(m, n);
 	return 0;
 }
