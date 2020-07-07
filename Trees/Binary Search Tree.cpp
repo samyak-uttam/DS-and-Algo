@@ -123,6 +123,22 @@ bool isBST(Node *root, int min, int max)
 	    isBST(root->right, root->data + 1, max);
 }
 
+// Given a sorted array, convert it to a height balanced BST
+// using Biary Search approach
+Node *sortedArrayToBST(int arr[], int l, int h)
+{
+	if (l > h)
+		return NULL;
+	int m = (l + h) / 2;
+
+	Node *cur = new Node(arr[m]);
+
+	cur->left = sortedArrayToBST(arr, l, m - 1);
+	cur->right = sortedArrayToBST(arr, m + 1, h);
+
+	return cur;
+}
+
 int main()
 {
 	int arr[] = {50, 30, 20, 40, 70, 60, 80};
@@ -139,6 +155,12 @@ int main()
 	cout << "\nLowest common ancestor of " << 40 << ", " << 20;
 	cout << " is " << (lca(root, 20, 40))->data;
 
-	cout << "\n" << isBST(root, INT_MIN, INT_MAX);
+	cout << "\n" << isBST(root, INT_MIN, INT_MAX) << "\n";
+
+	int a[] = { -10, -5, -3, 0, 5, 8, 9};
+	n = sizeof(a) / sizeof(a[0]);
+
+	Node *r = sortedArrayToBST(a, 0, n - 1);
+	inorder(r);
 	return 0;
 }

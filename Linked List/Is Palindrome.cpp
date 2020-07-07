@@ -21,14 +21,11 @@ void push(int new_data)
 
 Node* reverse(Node *head)
 {
-	Node *prev = NULL;
-	Node *current = head;
-	Node *next;
+	Node *prev = NULL, *current = head, *next;
 
 	while (current != NULL)
 	{
 		next = current->next;
-
 		current->next = prev;
 
 		prev = current;

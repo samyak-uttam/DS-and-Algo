@@ -147,6 +147,27 @@ void delAfter()
 	}
 }
 
+// delete nth node from the end of a list
+Node* delNthNodeFromEnd(int n)
+{
+	Node *h = new(Node);
+	h->data = 0;
+	h->next = head;
+
+	Node *fast = h, *slow = h;
+	for (int i = 1; i <= n + 1; i++)
+		fast = fast->next;
+	cout << fast->val;
+	while (fast != NULL)
+	{
+		slow = slow->next;
+		fast = fast->next;
+	}
+	slow->next = slow->next->next;
+	return h->next;
+}
+
+// reverse a linked list
 void reverse()
 {
 	Node *prev = NULL;
@@ -165,6 +186,7 @@ void reverse()
 	head = prev;
 }
 
+// find the middle Node of the list
 void printMiddle()
 {
 	Node *ptr1 = head, *ptr2 = head;
@@ -174,6 +196,27 @@ void printMiddle()
 		ptr2 = ptr2->next->next;
 	}
 	cout << ptr1->data << "\n";
+}
+
+// merge two sorted lists
+Node* sortedMerge(Node* a, Node* b)
+{
+	if (!a)
+		return b;
+	if (!b)
+		return a;
+	Node *cur = NULL;
+	if (a->data < b->data)
+	{
+		cur = a;
+		cur->next = sortedMerge(a->next, b);
+	}
+	else
+	{
+		cur = b;
+		cur->next = sortedMerge(a, b->next);
+	}
+	return cur;
 }
 
 void rotate(int k)
