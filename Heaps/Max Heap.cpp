@@ -1,6 +1,11 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// Time Complexities
+// Heap Creation using heapify - O(n)
+// Insertion - O(log n)
+// Deletion - O(log n)
+
 // Capacity and current size of the heap
 int capacity = 11, size = 7;
 int arr[11] = {3, 2, 1, 15, 5, 4, 45};

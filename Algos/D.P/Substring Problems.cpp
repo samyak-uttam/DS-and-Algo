@@ -26,6 +26,31 @@ string longestPalSubStr(string s, int l)
 	return s.substr(beg, end - beg + 1);
 }
 
+// Expand around centre, O(n^2)
+int expandAroundCentre(string s, int l, int r)
+{
+	while (l >= 0 && r < s.length() && s[l] == s[r])
+		l--, r++;
+	return r - l - 1;
+}
+
+string longestPalSubStr2(string s, int l)
+{
+	int start = 0, end = 0;
+	for (int i = 0; i < l; i++)
+	{
+		int l1 = expandAroundCentre(s, i, i);
+		int l2 = expandAroundCentre(s, i, i + 1);
+		int cur = max(l1, l2);
+		if (cur > (end - start + 1))
+		{
+			start = i - ((cur - 1) / 2);
+			end = i + (cur / 2);
+		}
+	}
+	return s.substr(start, start + end + 1);
+}
+
 // using dynamic programming, O(n^2)
 string longestPalSubStrDP(string s, int l)
 {
@@ -36,7 +61,7 @@ string longestPalSubStrDP(string s, int l)
 	for (int i = 0; i < l; i++)
 		dp[i][i] = true;
 
-	int start = 0, maxLen = 1;;
+	int start = 0, maxLen = 1;
 
 	// for substrings of length 2
 	for (int i = 0; i < l - 1; i++)
@@ -111,7 +136,7 @@ int main()
 {
 	string str = "aaaabbaa";
 	int l = str.length();
-	cout << "Longest Palindromic Substring: " << longestPalSubStrDP(str, l);
+	cout << "Longest Palindromic Substring: " << longestPalSubStr2(str, l);
 
 	int m = a.length(), n = b.length();
 	cout << "\nLongest Common Substring: " << LCS(m, n);

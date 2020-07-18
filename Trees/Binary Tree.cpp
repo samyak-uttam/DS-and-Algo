@@ -71,6 +71,27 @@ void inorder(Node *node)
 	inorder(node->right);
 }
 
+// Iterative approach of Inorder traverasal
+void inorderItr(Node *root)
+{
+	stack<Node *> st;
+	Node *cur = root;
+	while (cur || !st.empty())
+	{
+		while (cur != NULL)
+		{
+			st.push(cur);
+			cur = cur->left;
+		}
+
+		cur = st.top();
+		st.pop();
+		cout << cur->data << " ";
+
+		cur = cur->right;
+	}
+}
+
 void postorder(Node *node)
 {
 	if (node == NULL)
@@ -133,6 +154,39 @@ void levelOrder2(Node *root)
 	}
 }
 
+// Level order traversal in spiral form
+void spiralLevelOrder(Node *root)
+{
+	if (root == NULL)
+		return;
+	stack<Node *> s1;
+	stack<Node *> s2;
+	s1.push(root);
+	while (!s1.empty() || !s2.empty())
+	{
+		while (!s1.empty())
+		{
+			Node *temp = s1.top();
+			cout << temp->data << " ";
+			s1.pop();
+			if (temp->left)
+				s2.push(temp->left);
+			if (temp->right)
+				s2.push(temp->right);
+		}
+		while (!s2.empty())
+		{
+			Node *temp = s2.top();
+			cout << temp->data << " ";
+			s2.pop();
+			if (temp->right)
+				s1.push(temp->right);
+			if (temp->left)
+				s1.push(temp->left);
+		}
+	}
+}
+
 // Check whether tree is balanced or not
 bool util(Node *root, bool &ans)
 {
@@ -159,11 +213,13 @@ int main()
 	Node *root = NULL;
 	root = construct(arr, root, 0, n);
 	preorder(root);
-	cout << endl;
+	cout << "\n";
 	inorder(root);
-	cout << endl;
+	cout << "\n";
 	postorder(root);
-	cout << endl;
+	cout << "\n";
+	spiralLevelOrder(root);
+	cout << "\n";
 	cout << search(root, 6);
 	cout << "\nHeight of tree is: " << height(root);
 	cout << "\nLevel order traversal: ";
