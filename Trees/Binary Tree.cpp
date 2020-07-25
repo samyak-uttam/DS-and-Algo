@@ -206,6 +206,24 @@ bool isBalanced(Node *root)
 	return ans;
 }
 
+// Lowest Common Ancestor of a Binary Tree
+Node *lca(Node *root, Node *p, Node *q)
+{
+	if (root == NULL)
+		return NULL;
+	if (root == p || root == q)
+		return root;
+
+	Node *l = lca(root->left, p, q);
+	Node *r = lca(root->right, p, q);
+
+	if (l && r)
+		return root;
+	if (!l && !r)
+		return  NULL;
+	return l ? l : r;
+}
+
 int main()
 {
 	int arr[] = {1, 2, 3, 4, 5, 6};

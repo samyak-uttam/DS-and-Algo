@@ -4,6 +4,7 @@ using namespace std;
 // Dijkstra algorithm doesn't work for graph woth negative weight edges.
 
 #define V  9
+#define iPair pair<int, int>
 
 // using Adjacency matrix, O(V^2)
 int minDistance(int dist[], bool sptSet[])
@@ -63,11 +64,11 @@ void dijkstra(int graph[V][V], int src)
 }
 
 
-// Using Adjacency list and stl, O(Elog V)
+// Using Adjacency list and stl(Min Heap), O(Elog V)
 class Graph
 {
 	int Ver;
-	list< pair<int, int> > *graph;
+	vector< iPair > *graph;
 
 public:
 	Graph(int Ver);
@@ -78,7 +79,7 @@ public:
 Graph::Graph(int Ver)
 {
 	this->Ver = Ver;
-	graph = new list< pair<int, int> >[V];
+	graph = new vector< iPair >[Ver];
 }
 
 void Graph::addEdge(int u, int v, int w)
@@ -89,30 +90,27 @@ void Graph::addEdge(int u, int v, int w)
 
 void Graph::dijkstra(int src)
 {
-	set<pair<int, int>> s;
+	priority_queue<iPair, vector<iPair>, greater<iPair>> pq;
 	vector<int> dist(Ver, INT_MAX);
+	vector<bool> isSet(Ver, false);
 
-	s.insert(make_pair(0, src));
+	pq.push(make_pair(0, src));
 	dist[src] = 0;
 
-	while (!s.empty())
+	while (!pq.empty())
 	{
-		pair<int, int> temp = *(s.begin());
-		s.erase(s.begin());
-
-		int u = temp.second;
-		for (auto i = graph[u].begin(); i != graph[u].end(); i++)
+		int u = pq.top().second;
+		pq.pop();
+		isSet[u] = true;
+		for (auto i : graph[u])
 		{
-			int v = (*i).first;
-			int wt = (*i).second;
+			int v = i.first;
+			int wt = i.second;
 
-			if (dist[v] > dist[u] + wt)
+			if (!isSet[v] && dist[v] > dist[u] + wt)
 			{
-				if (dist[v] != INT_MAX)
-					s.erase(s.find(make_pair(dist[v], v)));
-
 				dist[v] = dist[u] + wt;
-				s.insert(make_pair(dist[v], v));
+				pq.push(make_pair(dist[v], v));
 			}
 		}
 	}
