@@ -243,4 +243,6 @@ int main()
 	cout << "\nLevel order traversal: ";
 	levelOrder2(root);
 	cout << "\n" << isBalanced(root);
+
+	return 0;
 }
