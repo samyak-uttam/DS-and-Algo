@@ -27,7 +27,7 @@ void Graph::addEdge(int v, int w)
 	graph[v].push_back(w);
 }
 
-// Detect cycle in directed graph
+// Detect cycle in directed graph, O(V + E)
 bool Graph::isCyclicUtil(int v, bool visited[], bool recStack[])
 {
 	if (visited[v] == false)
@@ -60,7 +60,7 @@ bool Graph::isCyclic()
 }
 
 // Topological Sort, Graph should be DAG (Directed Acyclic Graph)
-// DFS based approach
+// DFS based approach, O(V + E)
 void Graph::topologicalSortUtil(int v, bool visited[], stack<int> &st)
 {
 	visited[v] = true;
@@ -90,7 +90,7 @@ void Graph::topologicalSort()
 	}
 }
 
-// using Kahn's method (by computing in-degree)
+// using Kahn's method (by computing in-degree), O(V + E)
 void Graph::topologicalSort2()
 {
 	vector<int> in_degree(V, 0);
