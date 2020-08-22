@@ -30,7 +30,7 @@ int main()
 	// a sub-range within a given range [first, last)
 	// that has all the elements equivalent to a given value
 	auto ip = equal_range(begin(vec), end(vec), 30);
-	cout << "30 is present in the index "
+	cout << "\n30 is present in the index "
 	     << (ip.first - begin(vec)) << " till "
 	     << (ip.second - begin(vec));
 

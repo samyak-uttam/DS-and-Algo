@@ -3,8 +3,20 @@ using namespace std;
 
 // how far (or close) the array is from being sorted
 // two elements a[i] and a[j] form an inversion if a[i] > a[j] and i < j
-// uses enhanced merge sort
 
+// brute force approach
+int invCount(int arr[], int n)
+{
+	int ans = 0;
+	for (int i = 0; i < n; i++)
+		for (int j = i + 1; j < n; j++)
+			if (arr[i] > arr[j])
+				ans++;
+	return ans;
+}
+
+// efficient way
+// uses enhanced merge sort
 int merge(int arr[], int temp[], int l, int m, int r)
 {
 	int i, j, k;

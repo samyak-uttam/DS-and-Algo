@@ -39,7 +39,8 @@ void LCS(string a, string b)
 
 void LIS(int arr[], int n)
 {
-	int dp[n] = {1}, i, j;
+	int dp[n] = {}, i, j;
+	dp[0] = 1;
 	for (i = 1; i < n; i++)
 	{
 		dp[i] = 1;
