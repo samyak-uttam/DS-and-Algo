@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// Largest Sum Contagious Subarray
+// Largest Sum Contiguous Subarray
 // using Kadane's algorithm, doesn't work for all -ve numbers
 int maxSubArraySum(int arr[], int n)
 {
@@ -29,6 +29,32 @@ int maxSubArraySumDP(int arr[], int n)
 	return maxSum;
 }
 
+// To also find the subarray
+// don't work for all -ve numbers
+void maxSubArraySum3(int arr[], int n)
+{
+	int curSum = 0, maxSum = INT_MIN, start = 0, end = 0, s;
+	for (int i = 0; i < n; i++)
+	{
+		curSum += arr[i];
+		if (maxSum < curSum)
+		{
+			maxSum = curSum;
+			start = s;
+			end = i;
+		}
+
+		if (curSum < 0)
+		{
+			curSum = 0;
+			s = i + 1;
+		}
+	}
+	cout << "\nMaximum Contiguous sum is: " << maxSum;
+	cout << "\nStarting index: " << start;
+	cout << "\nEnding index: " << end;
+}
+
 
 // Maximum Product Subarray
 int maxProduct(int arr[], int n)
@@ -46,14 +72,17 @@ int maxProduct(int arr[], int n)
 
 int main()
 {
-	int a[] = { -2, -3, 4, -1, -2, 1, 5, -3};
+	int a[] = { -2, -3, -4, -1, -2, 1, 5, -3};
 	int n = sizeof(a) / sizeof(a[0]);
 	cout << "Largest Sum is: " << maxSubArraySum(a, n);
 	cout << "\nLargest Sum is(DP): " << maxSubArraySumDP(a, n);
+
+	maxSubArraySum3(a, n);
 
 	int arr[] = {1, 0, -1, 2, 3, -5, -2};
 	n = sizeof(arr) / sizeof(arr[0]);
 	cout << "\nMax product: ";
 	cout << maxProduct(arr, n);
+
 	return 0;
 }
