@@ -44,6 +44,20 @@ void subArraySum2(int arr[], int n, int sum)
 	cout << -1;
 }
 
+// Count pairs of elements whose sum is equal to k
+int countPairs(int arr[], int n, int k)
+{
+	int ans = 0;
+	unordered_map<int, int> mp;
+	for (int i = 0; i < n; i++)
+	{
+		if (mp[k - arr[i]])
+			ans += mp[k - arr[i]];
+		mp[arr[i]]++;
+	}
+	return ans;
+}
+
 int main()
 {
 
@@ -51,7 +65,9 @@ int main()
 	int n = sizeof(arr) / sizeof(arr[0]);
 	int sum = 12;
 
-	subArraySum2(arr, n, sum);
+	subArraySum(arr, n, sum);
+
+	cout << "\nNo of pairs: " << countPairs(arr, n, sum);
 
 	return 0;
 }
