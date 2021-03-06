@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// Longest Common Subsequence
 void LCS(string a, string b)
 {
 	int m = a.length(), n = b.length();
@@ -37,6 +38,7 @@ void LCS(string a, string b)
 	cout << "\nAnd the subsequence is: " << ans;
 }
 
+// Longest Increasing Subsequence
 void LIS(int arr[], int n)
 {
 	int dp[n] = {}, i, j;
@@ -54,6 +56,7 @@ void LIS(int arr[], int n)
 	cout << "\nLength of Longest Increasing Subsequence is: " << ans;
 }
 
+// Longest Palindromic Subsequence
 void LPS(string s)
 {
 	int n = s.length(), i, l, j;

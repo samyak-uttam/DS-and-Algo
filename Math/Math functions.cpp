@@ -43,12 +43,12 @@ double pow(double x, int n)
 	if (n < 0)
 		x = 1 / x, n = -n;
 	double y = 1;
-	while (n)
+	while (n > 0)
 	{
-		if (n % 2 != 0)
+		if (n & 1)
 			y *= x;
 		x = x * x;
-		n /= 2;
+		n = n >> 1;
 	}
 	return y;
 }
@@ -61,6 +61,7 @@ int main()
 	double x = 2.1;
 	n = 3;
 	cout << "\n" << pow(x, n);
+	cout << "\n" << power(3, 3);
 
 	return 0;
 }

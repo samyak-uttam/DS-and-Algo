@@ -139,6 +139,24 @@ Node *sortedArrayToBST(int arr[], int l, int h)
 	return cur;
 }
 
+// Given the root of a BST, and an integer k, return the kth smallest element in the tree.
+void findKth(Node* root, int &k, int& ans)
+{
+	if (root == NULL)
+		return;
+	findKth(root->left, k, ans);
+	k--;
+	if (k == 0)
+		ans = root->data;
+	findKth(root->right, k, ans);
+}
+
+int kthSmallest(Node* root, int k) {
+	int ans = 0;
+	findKth(root, k, ans);
+	return ans;
+}
+
 int main()
 {
 	int arr[] = {50, 30, 20, 40, 70, 60, 80};

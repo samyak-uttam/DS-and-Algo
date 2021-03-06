@@ -58,6 +58,23 @@ int countPairs(int arr[], int n, int k)
 	return ans;
 }
 
+// Count no of subarrays having sum divisible by k
+int subCount(vector<int> vec, int k)
+{
+	unordered_map<int, int> mp;
+	int n = vec.size(), sum = 0, ans = 0;
+	mp[0] = 1;
+	for (int i = 0; i < n; i++)
+	{
+		sum = (sum + vec[i]) % k;
+		if (sum < 0)
+			sum += k;
+		ans += mp[sum];
+		mp[sum]++;
+	}
+	return ans;
+}
+
 int main()
 {
 
@@ -68,6 +85,10 @@ int main()
 	subArraySum(arr, n, sum);
 
 	cout << "\nNo of pairs: " << countPairs(arr, n, sum);
+
+	vector<int> vec = {4, 5, 0, -2, -3, 1};
+	int k = 5;
+	cout << "\nNo of Subarrays: " << subCount(vec, k);
 
 	return 0;
 }

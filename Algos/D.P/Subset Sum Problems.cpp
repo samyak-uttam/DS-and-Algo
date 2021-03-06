@@ -91,6 +91,16 @@ bool areSameDP(int arr[], int n, int tot)
 	return dp[n][tot];
 }
 
+int smallestPositive(vector<int> arr, int n)
+{
+	sort(arr.begin(), arr.end());
+
+	int ans = 1;
+	for (int i = 0; i < n && arr[i] <= ans; i++)
+		ans += arr[i];
+	return ans;
+}
+
 int main()
 {
 	int s = 11;
@@ -119,6 +129,13 @@ int main()
 		cout << areSameDP(array, n, tot / 2);
 	else
 		cout << 0;
+
+
+	// smallest positive number that can't be represented as sum of some elements of the array
+	vector<int> a2 = {1, 1, 3, 5, 8, 21};
+	n = a2.size();
+
+	cout << "\nSmallest positive number not present in array is: " << smallestPositive(a2, n);
 
 	return 0;
 }

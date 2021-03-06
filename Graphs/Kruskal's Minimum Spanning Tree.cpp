@@ -14,6 +14,7 @@ int parent[V];
 */
 
 // using adjacency matrix, very inefficient way
+// using union find method
 int find(int i)
 {
 	while (parent[i] != i)
@@ -58,96 +59,43 @@ void KruskalMST(int cost[][V])
 }
 
 // using adjacency list, efficient way
-class Graph
+// using min heap
+int find(vector<int> &parent, int u)
 {
-private:
-	int v, e;
-	vector<pair<int, iPair>> edges;
+	while (u != parent[u])
+		u = parent[u];
+	return u;
+}
 
-public:
-	Graph(int v, int e)
-	{
-		this->v = v;
-		this->e = e;
-	}
-
-	void addEdge(int u, int v, int w)
-	{
-		edges.push_back({w, {u, v}});
-	}
-
-	int KruskalMST();
-};
-
-class DisjointSets
+int KruskalMST(vector<vector<int>>& points)
 {
-private:
-	int *parent, *rank;
-	int n;
+	int n = points.size(), mst_wt = 0, vert = 0;
 
-public:
-	DisjointSets(int n)
+	vector<int> parent(n);
+	for (int i = 0; i < n; i++)
+		parent[i] = i;
+
+	vector<array<int, 3>> edges;
+	for (int i = 0; i < n; i++)
+		edges.push_back({points[i][2], points[i][0], points[i][1]});
+
+	make_heap(edges.begin(), edges.end(), greater<array<int, 3>>());
+
+	while (vert < n - 1 && !edges.empty())
 	{
-		this->n = n;
-		parent = new int[n+1];
-		rank = new int[n+1];
+		pop_heap(edges.begin(), edges.end(), greater<array<int, 3>>());
+		array<int, 3> cur = edges.back();
+		int dist = cur[0], u = cur[1], v = cur[2];
+		edges.pop_back();
 
-		for(int i = 0; i <= n; i++)
+		int set_u = find(parent, u), set_v = find(parent, v);
+		if (set_u != set_v)
 		{
-			parent[i] = i;
-			rank[i] = 0;
-		}
-	}
-
-	int find(int u)
-	{
-		while(u != parent[u])
-			u = parent[u];
-		return u;
-	}
-
-	void merge(int x, int y)
-	{
-		x = find(x), y = find(y);
-
-		if(rank[x] > rank[y])
-			parent[y] = x;
-		else
-			parent[x] = y;
-
-		if(rank[x] == rank[y])
-			rank[y]++;
-	}
-};
-
-int Graph::KruskalMST()
-{
-	int mst_wt = 0;
-
-	sort(begin(edges), end(edges));
-
-	DisjointSets ds(v);
-
-	int edge_count = 0;
-	for (auto it = edges.begin(); edge_count < v - 1 && it != edges.end(); it++)
-	{
-		int u = it->second.first;
-		int v = it->second.second;
-
-		int set_u = ds.find(u);
-		int set_v = ds.find(v);
-
-		if(set_u != set_v)
-		{
+			mst_wt += dist;
 			cout << u << " - " << v << "\n";
-
-			mst_wt += it->first;
-
-			ds.merge(set_u, set_v);
-			edge_count++;
+			parent[set_u] = set_v;
 		}
 	}
-
 	return mst_wt;
 }
 
@@ -164,27 +112,15 @@ int main()
 	KruskalMST(cost);
 
 
-	int v = 9, e = 14;
-	Graph g(v, e);
+	vector<vector<int>> points = {{0, 1, 4}, {0, 7, 8}, {1, 2, 8}, {1, 7, 11}, {2, 3, 7}, {2, 8, 2},
+		{2, 5, 4}, {3, 4, 9}, {3, 5, 14}, {4, 5, 10}, {5, 6, 2}, {6, 7, 1},
+		{6, 8, 6}, {7, 8, 7}
+	};
 
-	g.addEdge(0, 1, 4);
-	g.addEdge(0, 7, 8);
-	g.addEdge(1, 7, 11);
-    g.addEdge(2, 3, 7);
-    g.addEdge(2, 8, 2);
-    g.addEdge(2, 5, 4);
-    g.addEdge(3, 4, 9);
-    g.addEdge(3, 5, 14);
-    g.addEdge(4, 5, 10);
-    g.addEdge(5, 6, 2);
-    g.addEdge(6, 7, 1);
-    g.addEdge(6, 8, 6);
-    g.addEdge(7, 8, 7);
+	cout << "\n\nEdges of MST are:\n";
+	int mst_wt = KruskalMST(points);
 
-    cout<<"\n\nEdges of MST are:\n";
-    int mst_wt = g.KruskalMST();
+	cout << "Weight of MST is: " << mst_wt;
 
-    cout<<"Weight of MST is: "<<mst_wt;
-	
 	return 0;
 }

@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//Given a collection of distinct integers, find all possible permutations.
+// Given a collection of distinct integers, find all possible permutations.
 void printPerm(int arr[], int n)
 {
 	for (int i = 0; i < n; i++)
