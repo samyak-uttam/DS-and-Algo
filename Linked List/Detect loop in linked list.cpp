@@ -1,32 +1,22 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// Detect if there is a loop in the linked list
-
-struct Node
-{
+struct Node {
 	int data;
 	Node *next;
+	Node(int data) {
+		this->data = data;
+		this->next = NULL;
+	}
 };
-Node *head = NULL;
 
-void push(int new_data)
-{
-	Node *new_node = new(Node);
-	new_node->data = new_data;
-	new_node->next = NULL;
-	if (head != NULL)
-		new_node->next = head;
-	head = new_node;
-}
 
+// Detect if there is a loop in the linked list
 // Using hashing
-bool detectLoop()
-{
+bool detectLoop(Node* head) {
 	Node *temp = head;
 	unordered_set<Node*> s;
-	while (temp != NULL)
-	{
+	while (temp != NULL) {
 		if (s.find(temp) != s.end())
 			return true;
 		s.insert(temp);
@@ -36,11 +26,9 @@ bool detectLoop()
 }
 
 // mark the visited nodes
-bool detectLoop2()
-{
+bool detectLoop2(Node* head) {
 	Node *temp = head;
-	while (temp != NULL)
-	{
+	while (temp != NULL) {
 		if (temp->data > 0)
 			temp->data *= -1;
 		else
@@ -52,30 +40,55 @@ bool detectLoop2()
 
 // most efficient approach
 // Using floyd's Cycle algorithm
-bool detectLoop3()
-{
-	Node *fast_ptr = head, *slow_ptr = head;
-	while (slow_ptr && fast_ptr && fast_ptr->next)
-	{
-		fast_ptr = fast_ptr->next->next;
-		slow_ptr = slow_ptr->next;
+bool detectLoop3(Node* head) {
+	Node *fast = head, *slow = head;
+	while (fast && fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
 
-		if (fast_ptr == slow_ptr)
+		if (fast == slow)
 			return true;
 	}
 	return false;
 }
 
+
+
+// detect the cycle and return the node where the cycle
+// begins, and return null if there is no cycle.
+Node* detectCycle(Node* head) {
+	Node* slow = head, *fast = head, *entry = head;
+	while (fast && fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) {
+			while (entry != slow) {
+				slow = slow->next;
+				entry = entry->next;
+			}
+			return entry;
+		}
+	}
+	return NULL;
+}
+
 int main()
 {
-	push(20);
-	push(4);
-	push(15);
-	push(10);
+	Node *head = new Node(3);
+	head->next = new Node(2);
+	head->next->next = new Node(0);
+	head->next->next->next = new Node(-1);
 
 	// create loop
-	head->next->next->next->next = head;
-	cout << detectLoop3();
+	head->next->next->next->next = head->next;
+
+	cout << detectLoop3(head);
+
+	Node* node = detectCycle(head);
+	if (node == NULL)
+		cout << "\nNo Loop";
+	else
+		cout << "\nLoop is present and the starting element is: " << node->data;
 
 	return 0;
 }

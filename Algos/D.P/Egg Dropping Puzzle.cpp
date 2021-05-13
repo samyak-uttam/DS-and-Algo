@@ -13,7 +13,7 @@ int eggDrop(int n, int k)
 	return ans;
 }
 
-// using DP, O(n*k^2)
+// vrute force, using DP, O(n*k^2)
 int eggDropDP(int n, int k)
 {
 	int dp[n + 1][k + 1];
@@ -37,6 +37,37 @@ int eggDropDP(int n, int k)
 		}
 	}
 	return dp[n][k];
+}
+
+// optimized version using DP, O(n * k)
+// dp[M][K] means that, given K eggs and M moves,
+// what is the maximum number of floor that we can check.
+// if egg breaks, then we can check dp[m - 1][k - 1] floors.
+// if egg doesn't breaks, then we can check dp[m - 1][k] floors.
+int eggDropDP2(int n, int k)
+{
+	vector<vector<int>> dp(n + 1, vector<int>(k + 1));
+	int m = 0;
+	while (dp[m][k] < n)
+	{
+		m++;
+		for (int i = 1; i <= k; i++)
+			dp[m][i] = 1 + dp[m - 1][i - 1] + dp[m - 1][i];
+	}
+	return m;
+}
+
+// space and time optimed version of above code, O(k * log n)
+int eggDropDP3(int n, int k)
+{
+	vector<int> dp(k + 1);
+	int m;
+	for (m = 0; dp[k] < n; m++)
+	{
+		for (int i = k; i > 0; i--)
+			dp[i] = 1 + dp[i] + dp[i - 1];
+	}
+	return m;
 }
 
 int main()

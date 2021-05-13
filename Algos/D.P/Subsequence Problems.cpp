@@ -38,7 +38,7 @@ void LCS(string a, string b)
 	cout << "\nAnd the subsequence is: " << ans;
 }
 
-// Longest Increasing Subsequence
+// Longest Increasing Subsequence, O(n^2)
 void LIS(int arr[], int n)
 {
 	int dp[n] = {}, i, j;
@@ -55,6 +55,23 @@ void LIS(int arr[], int n)
 	int ans = *max_element(dp, dp + n);
 	cout << "\nLength of Longest Increasing Subsequence is: " << ans;
 }
+
+// Longest Increasing Subsequence uing DP with Binary Search, O(nlog n)
+void LIS(vector<int> nums)
+{
+	vector<int> dp;
+	for (int i = 1; i < nums.size(); i++)
+	{
+		auto it = lower_bound(dp.begin(), dp.end(), nums[i]);
+		if (it == dp.end())
+			dp.push_back(nums[i]);
+		else
+			*it = nums[i];
+	}
+	int ans = dp.size();
+	cout << "\nLength of Longest Increasing Subsequence is: " << ans;
+}
+
 
 // Longest Palindromic Subsequence
 void LPS(string s)
