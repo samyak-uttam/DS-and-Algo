@@ -5,7 +5,7 @@ class Graph
 {
 	int V;
 	vector<int> *graph;
-	bool isCyclicUtil(int v, bool visited[], bool recStack[]);
+	bool isCyclicUtil(int v, int visited[]);
 	void topologicalSortUtil(int v, bool visited[], stack<int> &Stack);
 
 public:
@@ -28,38 +28,37 @@ void Graph::addEdge(int v, int w)
 }
 
 // Detect cycle in directed graph, O(V + E)
-bool Graph::isCyclicUtil(int v, bool visited[], bool recStack[])
+bool Graph::isCyclicUtil(int u, int visited[])
 {
-	if (visited[v] == false)
+	if (visited[u] == 0)
 	{
-		visited[v] = true;
-		recStack[v] = true;
-		for (auto i = graph[v].begin(); i != graph[v].end(); i++)
+		visited[u] = 1;
+		for (auto v = graph[u].begin(); v != graph[u].end(); v++)
 		{
-			if (!visited[*i] && isCyclicUtil(*i, visited, recStack))
+			if (visited[*v] == 1)
 				return true;
-			else if (recStack[*i])
+			else if (visited[*v] == 0 && isCyclicUtil(*v, visited))
 				return true;
 		}
+		visited[u] = 2;
 	}
-	recStack[v] = false;
 	return false;
 }
 
 bool Graph::isCyclic()
 {
-	bool visited[V] = {false};
-	bool recStack[V] = {false};
+	int visited[V] = {};
 
 	for (int i = 0; i < V; i++)
 	{
-		if (isCyclicUtil(i, visited, recStack))
+		if (isCyclicUtil(i, visited))
 			return true;
 	}
 	return false;
 }
 
-// Topological Sort, Graph should be DAG (Directed Acyclic Graph)
+// Topological Sorting of a DAG (Directed Acyclic Graph) is a linear ordering of vertices such
+// that for every directed edge u v, vertex u comes before v in the ordering.
 // DFS based approach, O(V + E)
 void Graph::topologicalSortUtil(int v, bool visited[], stack<int> &st)
 {

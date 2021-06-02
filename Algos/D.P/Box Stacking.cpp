@@ -9,7 +9,7 @@ using namespace std;
 struct Box
 {
 	// length, width, height
-	int l , w, h;
+	int l, w, h;
 };
 
 vector<Box> createRotations(int length[], int width[], int height[], int n)
@@ -51,7 +51,7 @@ int maxStackHeight(int length[], int width[], int height[], int n)
 	for (int i = 0; i < n; i++)
 	{
 		dp[i] = rot[i].h;
-		for (int j = 0; j < i; j++)
+		for (int j = i - 1; j >= 0; j--)
 		{
 			if (rot[i].l < rot[j].l && rot[i].w < rot[j].w)
 				dp[i] = max(dp[i], dp[j] + rot[i].h);

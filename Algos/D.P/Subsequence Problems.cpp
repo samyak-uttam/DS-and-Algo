@@ -85,7 +85,7 @@ void LPS(string s)
 
 	for (l = 2; l <= n; l++)
 	{
-		for (i = 0; i < n - l + 1; i++)
+		for (i = 0; i <= n - l; i++)
 		{
 			j = i + l - 1;
 			if (l == 2 && s[i] == s[j])

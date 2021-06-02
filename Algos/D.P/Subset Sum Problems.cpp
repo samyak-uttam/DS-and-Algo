@@ -41,6 +41,20 @@ void subsetSum(int s, int arr[], int n)
 	}
 }
 
+// using only, O(sum) space
+bool subsetSum(vector<int>& nums, int sum)
+{
+	int n = nums.size();
+	vector<bool> dp(sum + 1);
+	dp[0] = true;
+	for (int i = 0; i < n; i++)
+	{
+		for (int s = sum; s >= nums[i]; s--)
+			dp[s] = dp[s] || dp[s - nums[i]];
+	}
+	return dp[sum];
+}
+
 void maxSubsetSum(int arr[], int n)
 {
 	if (n == 1)
