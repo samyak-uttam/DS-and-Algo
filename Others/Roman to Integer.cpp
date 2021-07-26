@@ -56,8 +56,7 @@ string intToRoman(int n) {
 	return res;
 }
 
-int main()
-{
+int main() {
 	string s = "MCMXCIV";
 
 	define();

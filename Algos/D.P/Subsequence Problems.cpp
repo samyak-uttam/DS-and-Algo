@@ -2,14 +2,11 @@
 using namespace std;
 
 // Longest Common Subsequence
-void LCS(string a, string b)
-{
+void LCS(string a, string b) {
 	int m = a.length(), n = b.length();
 	int dp[m + 1][n + 1], i , j;
-	for (i = 0; i <= m; i++)
-	{
-		for (j = 0; j <= n; j++)
-		{
+	for (i = 0; i <= m; i++) {
+		for (j = 0; j <= n; j++) {
 			if (i == 0 || j == 0)
 				dp[i][j] = 0;
 			else if (a[i - 1] == b[j - 1])
@@ -21,14 +18,12 @@ void LCS(string a, string b)
 	i = m, j = n;
 	string ans;
 	// BackTracing to find the subsequence
-	while (dp[i][j] > 0)
-	{
+	while (dp[i][j] > 0) {
 		if (dp[i][j] == dp[i - 1][j])
 			i--;
 		else if (dp[i][j] == dp[i][j - 1])
 			j--;
-		else
-		{
+		else {
 			ans += a[i - 1];
 			i--, j--;
 		}
@@ -39,29 +34,24 @@ void LCS(string a, string b)
 }
 
 // Longest Increasing Subsequence, O(n^2)
-void LIS(int arr[], int n)
-{
-	int dp[n] = {}, i, j;
+void LIS(int arr[], int n) {
+	int dp[n] = {};
 	dp[0] = 1;
-	for (i = 1; i < n; i++)
-	{
+	for (int i = 1; i < n; i++) {
 		dp[i] = 1;
-		for (j = 0; j < i; j++)
-		{
+		for (int j = 0; j < i; j++)
 			if (arr[j] < arr[i])
 				dp[i] = max(dp[i], dp[j] + 1);
-		}
 	}
 	int ans = *max_element(dp, dp + n);
 	cout << "\nLength of Longest Increasing Subsequence is: " << ans;
 }
 
 // Longest Increasing Subsequence uing DP with Binary Search, O(nlog n)
-void LIS(vector<int> nums)
-{
+// dp[i] will be the smallest element which can be present at end of LIS of length i + 1
+void LIS(vector<int> nums) {
 	vector<int> dp;
-	for (int i = 1; i < nums.size(); i++)
-	{
+	for (int i = 0; i < nums.size(); i++) {
 		auto it = lower_bound(dp.begin(), dp.end(), nums[i]);
 		if (it == dp.end())
 			dp.push_back(nums[i]);
@@ -74,8 +64,7 @@ void LIS(vector<int> nums)
 
 
 // Longest Palindromic Subsequence
-void LPS(string s)
-{
+void LPS(string s) {
 	int n = s.length(), i, l, j;
 	int dp[n][n];
 
@@ -83,10 +72,8 @@ void LPS(string s)
 	for (i = 0; i < n; i++)
 		dp[i][i] = 1;
 
-	for (l = 2; l <= n; l++)
-	{
-		for (i = 0; i <= n - l; i++)
-		{
+	for (l = 2; l <= n; l++) {
+		for (i = 0; i <= n - l; i++) {
 			j = i + l - 1;
 			if (l == 2 && s[i] == s[j])
 				dp[i][j] = 2;
@@ -100,8 +87,7 @@ void LPS(string s)
 	cout << dp[0][n - 1];
 }
 
-int main()
-{
+int main() {
 	// Longest Common Subsequence
 	string a = "AGGTAB", b = "GXTXAYB";
 	LCS(a, b);

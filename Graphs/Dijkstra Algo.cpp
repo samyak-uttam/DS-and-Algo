@@ -7,27 +7,23 @@ using namespace std;
 #define iPair pair<int, int>
 
 // using Adjacency matrix, O(V^2)
-int minDistance(int dist[], bool sptSet[])
-{
+int minDistance(int dist[], bool sptSet[]) {
 	int min = INT_MAX, min_index;
-	for (int i = 0; i < V; i++)
-	{
+	for (int i = 0; i < V; i++) {
 		if (!sptSet[i] && dist[i] < min)
 			min = dist[i], min_index = i;
 	}
 	return min_index;
 }
 
-void printPath(int parent[], int i)
-{
+void printPath(int parent[], int i) {
 	if (i == -1)
 		return;
 	printPath(parent, parent[i]);
 	cout << i << " ";
 }
 
-void dijkstra(int graph[V][V], int src)
-{
+void dijkstra(int graph[V][V], int src) {
 	int dist[V];
 	// sptSet[i] will be true if shortest distance from src to i is finalized
 	bool sptSet[V];
@@ -40,33 +36,29 @@ void dijkstra(int graph[V][V], int src)
 	dist[src] = 0;
 	parent[src] = -1;
 
-	for (int cnt = 0; cnt < V - 1; cnt++)
-	{
+	for (int cnt = 0; cnt < V - 1; cnt++) {
 		int u = minDistance(dist, sptSet);
 		sptSet[u] = true;
 
-		for (int v = 0; v < V; v++)
-		{
+		for (int v = 0; v < V; v++) {
 			if (!sptSet[v] && graph[u][v] && dist[u] != INT_MAX
-			        && dist[u] + graph[u][v] < dist[v])
-			{
+			        && dist[u] + graph[u][v] < dist[v]) {
 				parent[v] = u;
 				dist[v] = dist[u] + graph[u][v];
 			}
 		}
 	}
 	cout << "Vertex\tDistance from src\tPath\n";
-	for (int i = 0; i < V; i++)
-	{
+	for (int i = 0; i < V; i++) {
 		cout << "\n" << i << "\t\t" << dist[i] << "\t\t";
 		printPath(parent, i);
 	}
 }
 
 
-// Using Adjacency list and stl(Min Heap), O(Elog V)
-class Graph
-{
+// Using Adjacency list and stl(Min Heap)
+// Time Complexity - O(E + Vlog V), E to create the graph from edges
+class Graph {
 	int Ver;
 	vector< iPair > *graph;
 
@@ -76,20 +68,17 @@ public:
 	void dijkstra(int src);
 };
 
-Graph::Graph(int Ver)
-{
+Graph::Graph(int Ver) {
 	this->Ver = Ver;
 	graph = new vector< iPair >[Ver];
 }
 
-void Graph::addEdge(int u, int v, int w)
-{
+void Graph::addEdge(int u, int v, int w) {
 	graph[u].push_back(make_pair(v, w));
 	graph[v].push_back(make_pair(u, w));
 }
 
-void Graph::dijkstra(int src)
-{
+void Graph::dijkstra(int src) {
 	priority_queue<iPair, vector<iPair>, greater<iPair>> pq;
 	vector<int> dist(Ver, INT_MAX);
 	vector<bool> isSet(Ver, false);
@@ -97,18 +86,15 @@ void Graph::dijkstra(int src)
 	pq.push(make_pair(0, src));
 	dist[src] = 0;
 
-	while (!pq.empty())
-	{
+	while (!pq.empty()) {
 		int u = pq.top().second;
 		pq.pop();
 		isSet[u] = true;
-		for (auto i : graph[u])
-		{
+		for (auto i : graph[u]) {
 			int v = i.first;
 			int wt = i.second;
 
-			if (!isSet[v] && dist[v] > dist[u] + wt)
-			{
+			if (!isSet[v] && dist[v] > dist[u] + wt) {
 				dist[v] = dist[u] + wt;
 				pq.push(make_pair(dist[v], v));
 			}
@@ -120,8 +106,7 @@ void Graph::dijkstra(int src)
 }
 
 
-int main()
-{
+int main() {
 	int graph[V][V] = { { 0, 4, 0, 0, 0, 0, 0, 8, 0 },
 		{ 4, 0, 8, 0, 0, 0, 0, 11, 0 },
 		{ 0, 8, 0, 7, 0, 4, 0, 0, 2 },

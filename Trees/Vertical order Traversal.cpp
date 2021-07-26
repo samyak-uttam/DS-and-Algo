@@ -1,20 +1,17 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-struct Node
-{
+struct Node {
 	int data;
 	Node *left, *right;
-	Node(int data)
-	{
+	Node(int data) {
 		this->data = data;
 		this->left = this->right = NULL;
 	}
 };
 
 // Using recursion
-void getVerticalOrder(Node *root, map<int, vector<int>>& mp, int hd)
-{
+void getVerticalOrder(Node *root, map<int, vector<int>>& mp, int hd) {
 	if (root == NULL)
 		return;
 	mp[hd].push_back(root->data);
@@ -22,13 +19,11 @@ void getVerticalOrder(Node *root, map<int, vector<int>>& mp, int hd)
 	getVerticalOrder(root->right, mp, hd + 1);
 }
 
-void verticalOrder(Node *root)
-{
+void verticalOrder(Node *root) {
 	map<int, vector<int>> mp;
 	getVerticalOrder(root, mp, 0);
 	map<int, vector<int>>::iterator it;
-	for (it = mp.begin(); it != mp.end(); it++)
-	{
+	for (it = mp.begin(); it != mp.end(); it++) {
 		for (int i = 0; i < it->second.size(); i++)
 			cout << it->second[i] << " ";
 	}
@@ -36,8 +31,7 @@ void verticalOrder(Node *root)
 
 // efficient method, O(nlog n)
 // using Level order traversal
-void verticalOrder2(Node *root)
-{
+void verticalOrder2(Node *root) {
 	if (root == NULL)
 		return;
 
@@ -47,8 +41,7 @@ void verticalOrder2(Node *root)
 	queue<pair<Node *, int>> q;
 	q.push(make_pair(root, hd));
 
-	while (!q.empty())
-	{
+	while (!q.empty()) {
 		pair<Node *, int> temp = q.front();
 		q.pop();
 		hd = temp.second;
@@ -61,15 +54,13 @@ void verticalOrder2(Node *root)
 			q.push(make_pair(node->right, hd + 1));
 	}
 	map<int, vector<int>>::iterator it;
-	for (it = mp.begin(); it != mp.end(); it++)
-	{
+	for (it = mp.begin(); it != mp.end(); it++) {
 		for (int i = 0; i < it->second.size(); i++)
 			cout << it->second[i] << " ";
 	}
 }
 
-int main()
-{
+int main() {
 	Node *root = new Node(1);
 	root->left = new Node(2);
 	root->right = new Node(3);

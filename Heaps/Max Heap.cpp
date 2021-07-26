@@ -13,37 +13,30 @@ using namespace std;
 int capacity = 11, size = 7;
 int arr[11] = {3, 2, 1, 15, 5, 4, 45};
 
-int parent(int i)
-{
+int parent(int i) {
 	return (i - 1) / 2;
 }
 
-int left(int i)
-{
+int left(int i) {
 	return (2 * i + 1);
 }
 
-int right(int i)
-{
+int right(int i) {
 	return (2 * i + 2);
 }
 
-int getMax()
-{
+int getMax() {
 	return arr[0];
 }
 
-void insertkey(int k)
-{
-	if (size == capacity)
-	{
+void insertkey(int k) {
+	if (size == capacity) {
 		cout << "\nOverflow.";
 		return;
 	}
 	arr[size++] = k;
 	int i = size - 1;
-	while (i >= 0 && arr[parent(i)] < arr[i])
-	{
+	while (i >= 0 && arr[parent(i)] < arr[i]) {
 		swap(arr[parent(i)], arr[i]);
 		i = parent(i);
 	}
@@ -66,8 +59,7 @@ void heapify(int i)
 	}
 }
 
-int extractMax()
-{
+int extractMax() {
 	if (size <= 0)
 		return -1;
 
@@ -79,8 +71,7 @@ int extractMax()
 }
 
 // removes element from position x in max heap
-void deleteKey(int i)
-{
+void deleteKey(int i) {
 	if (i < 0 || i >= size)
 		return;
 	arr[i] = INT_MAX;
@@ -92,27 +83,23 @@ void deleteKey(int i)
 	extractMax();
 }
 
-void deleteMax()
-{
+void deleteMax() {
 	swap(arr[--size], arr[0]);
 	heapify(0);
 }
 
-void createMaxHeap()
-{
+void createMaxHeap() {
 	for (int i = size / 2 - 1; i >= 0; i--)
 		heapify(i);
 }
 
-void printArr()
-{
+void printArr() {
 	for (int i = 0; i < size; i++)
 		cout << arr[i] << " ";
 	cout << "\n";
 }
 
-int main()
-{
+int main() {
 	createMaxHeap();
 	printArr();
 	deleteKey(1);

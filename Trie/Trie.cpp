@@ -8,25 +8,21 @@ using namespace std;
 
 const int ALPHABET_SIZE = 26;
 
-struct TrieNode
-{
+struct TrieNode {
 	TrieNode *children[ALPHABET_SIZE];
 	bool isEndOfWord;
-	TrieNode()
-	{
+	TrieNode() {
 		isEndOfWord = false;
 		for (int i = 0; i < ALPHABET_SIZE; i++)
 			children[i] = NULL;
 	}
 };
 
-class Trie
-{
+class Trie {
 private:
 	TrieNode *root;
 public:
-	Trie()
-	{
+	Trie() {
 		root = new TrieNode();
 	}
 
@@ -39,11 +35,9 @@ public:
 	void display();
 };
 
-void Trie::insert(string key)
-{
+void Trie::insert(string key) {
 	TrieNode *cur = root;
-	for (int i = 0; i < key.length(); i++)
-	{
+	for (int i = 0; i < key.length(); i++) {
 		int index = key[i] - 'a';
 		if (cur->children[index] == NULL)
 			cur->children[index] = new TrieNode();
@@ -53,11 +47,9 @@ void Trie::insert(string key)
 	cur->isEndOfWord = true;
 }
 
-bool Trie::search(string key)
-{
+bool Trie::search(string key) {
 	TrieNode *cur = root;
-	for (int i = 0; i < key.length(); i++)
-	{
+	for (int i = 0; i < key.length(); i++) {
 		int index = key[i] - 'a';
 		if (cur->children[index] == NULL)
 			return false;
@@ -66,26 +58,22 @@ bool Trie::search(string key)
 	return (cur != NULL && cur->isEndOfWord);
 }
 
-bool Trie::isEmpty(TrieNode* node)
-{
+bool Trie::isEmpty(TrieNode* node) {
 	for (int i = 0; i < ALPHABET_SIZE; i++)
 		if (node->children[i])
 			return false;
 	return true;
 }
 
-TrieNode* Trie::removeUtil(TrieNode* node, string key, int level)
-{
+TrieNode* Trie::removeUtil(TrieNode* node, string key, int level) {
 	if (node == NULL)
 		return NULL;
 
-	if (level == key.length())
-	{
+	if (level == key.length()) {
 		if (node->isEndOfWord)
 			node->isEndOfWord = false;
 
-		if (isEmpty(node))
-		{
+		if (isEmpty(node)) {
 			delete(node);
 			node = NULL;
 		}
@@ -95,8 +83,7 @@ TrieNode* Trie::removeUtil(TrieNode* node, string key, int level)
 	int index = key[level] - 'a';
 	node->children[index] = removeUtil(node->children[index], key, level + 1);
 
-	if (isEmpty(node) && node->isEndOfWord == false)
-	{
+	if (isEmpty(node) && node->isEndOfWord == false) {
 		delete(node);
 		node = NULL;
 	}
@@ -104,38 +91,31 @@ TrieNode* Trie::removeUtil(TrieNode* node, string key, int level)
 	return node;
 }
 
-TrieNode* Trie::remove(string key)
-{
+TrieNode* Trie::remove(string key) {
 	return removeUtil(root, key, 0);
 }
 
-void Trie::displayUtil(TrieNode *node, char str[], int level)
-{
-	if (node->isEndOfWord)
-	{
+void Trie::displayUtil(TrieNode *node, char str[], int level) {
+	if (node->isEndOfWord) {
 		str[level] = '\0';
 		cout << str << "\n";
 	}
 
-	for (int i = 0; i < ALPHABET_SIZE; i++)
-	{
-		if (node->children[i])
-		{
+	for (int i = 0; i < ALPHABET_SIZE; i++) {
+		if (node->children[i]) {
 			str[level] = i + 'a';
 			displayUtil(node->children[i], str, level + 1);
 		}
 	}
 }
 
-void Trie::display()
-{
+void Trie::display() {
 	char str[20] = {};
 	cout << "Content of Trie: \n";
 	displayUtil(root, str, 0);
 }
 
-int main()
-{
+int main() {
 	string keys[] = {"the", "a", "there", "answer", "any", "by", "bye", "their"};
 	int n = 8;
 

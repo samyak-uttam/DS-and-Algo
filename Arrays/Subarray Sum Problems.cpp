@@ -3,15 +3,12 @@ using namespace std;
 
 // find the starting and ending index of subarray with given sum
 // for +ve no's only
-void subArraySum(int arr[], int n, int sum)
-{
+void subArraySum(int arr[], int n, int sum) {
 	int curSum = arr[0], beg = 0;
-	for (int i = 1; i <= n; i++)
-	{
+	for (int i = 1; i <= n; i++) {
 		while (curSum > sum && beg < i - 1)
 			curSum -= arr[beg++];
-		if (curSum == sum)
-		{
+		if (curSum == sum) {
 			cout << beg + 1 << " " << i;
 			return;
 		}
@@ -22,20 +19,16 @@ void subArraySum(int arr[], int n, int sum)
 }
 
 // for -ve no's also
-void subArraySum2(int arr[], int n, int sum)
-{
+void subArraySum2(int arr[], int n, int sum) {
 	unordered_map<int, int> mp;
 	int curSum = 0;
-	for (int i = 0; i < n; i++)
-	{
+	for (int i = 0; i < n; i++) {
 		curSum += arr[i];
-		if (curSum == sum)
-		{
+		if (curSum == sum) {
 			cout << 1 << " " << i + 1;
 			return;
 		}
-		if (mp.find(curSum - sum) != mp.end())
-		{
+		if (mp.find(curSum - sum) != mp.end()) {
 			cout << mp[curSum - sum] + 2 << " " << i + 1;
 			return;
 		}
@@ -45,12 +38,10 @@ void subArraySum2(int arr[], int n, int sum)
 }
 
 // Count pairs of elements whose sum is equal to k
-int countPairs(int arr[], int n, int k)
-{
+int countPairs(int arr[], int n, int k) {
 	int ans = 0;
 	unordered_map<int, int> mp;
-	for (int i = 0; i < n; i++)
-	{
+	for (int i = 0; i < n; i++) {
 		if (mp[k - arr[i]])
 			ans += mp[k - arr[i]];
 		mp[arr[i]]++;
@@ -58,14 +49,25 @@ int countPairs(int arr[], int n, int k)
 	return ans;
 }
 
+// Count total number of subarrays whose sum equals to k.
+int subarraySum(vector<int>& nums, int k) {
+	unordered_map<int, int> mp;
+	mp[0]++;
+	int sum = 0, res = 0;
+	for (int i = 0; i < nums.size(); i++) {
+		sum += nums[i];
+		res += mp[sum - k];
+		mp[sum]++;
+	}
+	return res;
+}
+
 // Count no of subarrays having sum divisible by k
-int subCount(vector<int> vec, int k)
-{
+int subCount(vector<int> vec, int k) {
 	unordered_map<int, int> mp;
 	int n = vec.size(), sum = 0, ans = 0;
 	mp[0] = 1;
-	for (int i = 0; i < n; i++)
-	{
+	for (int i = 0; i < n; i++) {
 		sum = (sum + vec[i]) % k;
 		if (sum < 0)
 			sum += k;
@@ -75,8 +77,7 @@ int subCount(vector<int> vec, int k)
 	return ans;
 }
 
-int main()
-{
+int main() {
 
 	int arr[] = {1, 2, 3, 7, 5};
 	int n = sizeof(arr) / sizeof(arr[0]);

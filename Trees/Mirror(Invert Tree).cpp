@@ -20,7 +20,6 @@ Node* mirror(Node *root)
 	if (root == NULL)
 		return NULL;
 
-	Node *temp;
 	Node *l = mirror(root->left);
 	Node *r = mirror(root->right);
 

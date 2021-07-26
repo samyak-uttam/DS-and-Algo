@@ -63,24 +63,13 @@ string longestPalSubStrDP(string s, int l)
 
 	int start = 0, maxLen = 1;
 
-	// for substrings of length 2
-	for (int i = 0; i < l - 1; i++)
-	{
-		if (s[i] == s[i + 1])
-		{
-			dp[i][i + 1] = true;
-			start = i;
-			maxLen = 2;
-		}
-	}
-
-	// for substrings of length > 2
-	for (int k = 3; k <= l; k++)
+	// for substrings of length > 1
+	for (int k = 2; k <= l; k++)
 	{
 		for (int i = 0; i < l - k + 1; i++)
 		{
 			int j = i + k - 1;
-			if (dp[i + 1][j - 1] && s[i] == s[j])
+			if ((k == 2 || dp[i + 1][j - 1]) && s[i] == s[j])
 			{
 				dp[i][j] = true;
 				if (k > maxLen)

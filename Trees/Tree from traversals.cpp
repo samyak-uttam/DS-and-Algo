@@ -15,7 +15,7 @@ struct Node
 };
 
 // From preOrder and inOrder
-Node *util(vector<int> pre, vector<int> in, int preInd, int inSt,
+Node *util(vector<int>& pre, vector<int>& in, int preInd, int inSt,
            int inEnd, map<int, int> mp)
 {
 	if (preInd >= pre.size() || inSt > inEnd)
@@ -31,7 +31,7 @@ Node *util(vector<int> pre, vector<int> in, int preInd, int inSt,
 	return root;
 }
 
-Node *buildTree(vector<int> pre, vector<int> in)
+Node *buildTree(vector<int>& pre, vector<int>& in)
 {
 	int n = in.size();
 	map<int, int> mp;
@@ -42,7 +42,7 @@ Node *buildTree(vector<int> pre, vector<int> in)
 }
 
 // from postOrder and inOrder
-Node *util2(vector<int> post, vector<int> in, int postInd, int inSt,
+Node *util2(vector<int>& post, vector<int>& in, int postInd, int inSt,
             int inEnd, map<int, int> mp)
 {
 	if (inSt > inEnd || postInd < 0)
@@ -58,7 +58,7 @@ Node *util2(vector<int> post, vector<int> in, int postInd, int inSt,
 	return root;
 }
 
-Node *buildTree2(vector<int> post, vector<int> in)
+Node *buildTree2(vector<int>& post, vector<int>& in)
 {
 	int n = in.size();
 	map<int, int> mp;

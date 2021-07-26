@@ -15,6 +15,10 @@ using namespace std;
 	Counting Sort -  O(n + k),	O(n + k),	O(n + k)
 */
 
+// A sorting algorithm is stable if two objects with equal keys appear in
+// the same order in sorted output as they appear in the input array.
+// Stable sorting algorithms: Bubble, Insertion, Merge, Count Sort
+
 void swap(int *a, int *b) {
 	int temp = *a;
 	*a = *b;
@@ -38,10 +42,15 @@ void selectionSort(int arr[], int n) {
 // Bubble Sort
 void bubbleSort(int arr[], int n) {
 	for (int i = 0; i < n; i++) {
+		bool swapped = false;
 		for (int j = 0; j < n - i - 1; j++) {
-			if (arr[j] > arr[j + 1])
+			if (arr[j] > arr[j + 1]) {
 				swap(&arr[j], &arr[j + 1]);
+				swapped = true;
+			}
 		}
+		if (swapped == false)
+			break;
 	}
 }
 
@@ -61,28 +70,18 @@ void insertionSort(int arr[], int  n) {
 
 // Merge Sort
 void merge(int arr[], int l, int m, int r) {
-	int i, j, k;
-	int s1 = m - l + 1, s2 = r - m;
-	int f1[s1], f2[s2];
-
-	for (i = 0; i < s1; i++)
-		f1[i] = arr[l + i];
-	for (i = 0; i < s2; i++)
-		f2[i] = arr[m + i + 1];
-
-	i = 0, j = 0, k = l;
-	while (i < s1 && j < s2) {
-		if (f1[i] <= f2[j])
-			arr[k++] = f1[i++];
+	vector<int> tmp(r - l + 1);
+	int i = l, j = m + 1, k = 0;
+	while (i <= m && j <= r) {
+		if (arr[i] <= arr[j])
+			tmp[k++] = arr[i++];
 		else
-			arr[k++] = f2[j++];
+			tmp[k++] = arr[j++];
 	}
-
-	while (i < s1)
-		arr[k++] = f1[i++];
-
-	while (j < s2)
-		arr[k++] = f2[j++];
+	while (i <= m) tmp[k++] = arr[i++];
+	while (j <= r) tmp[k++] = arr[j++];
+	for (int i = 0; i < k; i++)
+		arr[i + l] = tmp[i];
 }
 
 void mergeSort(int arr[], int l, int r) {
@@ -101,10 +100,10 @@ void heapify(int arr[], int n, int i) {
 	int l = 2 * i + 1;
 	int r = 2 * i + 2;
 
-	if (l < n && arr[l] >= arr[largest])
+	if (l < n && arr[l] > arr[largest])
 		largest = l;
 
-	if (r < n && arr[r] >= arr[largest])
+	if (r < n && arr[r] > arr[largest])
 		largest = r;
 
 	if (largest != i) {
@@ -124,7 +123,7 @@ void heapSort(int arr[], int n) {
 }
 
 
-// Quick Sort
+// Quick Sort, taking last element as pivot
 int partition(int arr[], int l, int h) {
 	int pivot = arr[h];
 	int i = l - 1;
@@ -145,6 +144,44 @@ void quickSort(int arr[], int l, int h) {
 		quickSort(arr, pivot + 1, h);
 	}
 }
+
+// quick sort, taking first element as pivot
+int partition2(int arr[], int l, int h) {
+	int pivot = arr[l];
+	int i = h + 1;
+	for (int j = h; j > l; j--) {
+		if (arr[j] > pivot)
+			swap(arr[--i], arr[j]);
+	}
+	swap(arr[i - 1], arr[l]);
+	return i - 1;
+}
+
+void quickSort2(int arr[], int l, int h) {
+	if (l < h) {
+		int pivot = partition2(arr, l, h);
+		quickSort2(arr, l, pivot - 1);
+		quickSort2(arr, pivot + 1, h);
+	}
+}
+
+// quick sort, taking random element as pivot
+int partition_r(int arr[], int l, int h) {
+	int r = l + rand() % (h - l);
+	swap(arr[r], arr[l]);
+	return partition2(arr, l, h);
+}
+
+void quickSort3(int arr[], int l, int h) {
+	if (l < h) {
+		int pivot = partition(arr, l, h);
+		quickSort3(arr, l, pivot - 1);
+		quickSort3(arr, pivot + 1, h);
+	}
+}
+
+
+
 
 
 // Counting Sort
@@ -191,9 +228,22 @@ void radixSort(int arr[], int n) {
 }
 
 
-// Bucket Sort
-void bucketSort(int arr[], int n) {
+// Bucket Sort, mainly useful when input is uniformly distributed over a range
+void bucketSort(float arr[], int n) {
+	vector<float> b[n];
+	for (int i = 0; i < n; i++) {
+		int bi = n * arr[i];
+		b[bi].push_back(arr[i]);
+	}
 
+	for (int i = 0; i < n; i++)
+		sort(b[i].begin(), b[i].end());
+
+	int ind = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < b[i].size(); j++)
+			arr[ind++] = b[i][j];
+	}
 }
 
 
@@ -210,7 +260,7 @@ int main() {
 	// selectionSort(arr, n);
 	// bubbleSort(arr, n);
 	// insertionSort(arr, n);
-	// mergeSort(arr, 0, n);
+	// mergeSort(arr, 0, n - 1);
 	// heapSort(arr, n);
 	// quickSort(arr, 0, n - 1);
 
