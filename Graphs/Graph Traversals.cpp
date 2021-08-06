@@ -6,8 +6,7 @@ using namespace std;
 	V - no. of vertices, E - no. of edges
 */
 
-class Graph
-{
+class Graph {
 	int V;
 	vector<int> *graph;
 	void DFSUtil(int v, bool visited[]);
@@ -19,73 +18,55 @@ public:
 	void BFS(int s);
 };
 
-Graph::Graph(int V)
-{
+Graph::Graph(int V) {
 	this->V = V;
 	this->graph = new vector<int> [V];
 }
 
-void Graph::addEdge(int v, int w)
-{
+void Graph::addEdge(int v, int w) {
 	graph[v].push_back(w);
 }
 
-void Graph::DFSUtil(int v, bool visited[])
-{
-	visited[v] = true;
-	cout << v << " ";
+void Graph::DFSUtil(int u, bool visited[]) {
+	visited[u] = true;
+	cout << u << " ";
 
-	vector<int>::iterator i;
-	for (i = graph[v].begin(); i < graph[v].end(); i++)
-	{
-		if (!visited[*i])
-			DFSUtil(*i, visited);
-	}
+	for (auto& v : graph[u])
+		if (!visited[v])
+			DFSUtil(v, visited);
 }
 
-void Graph::DFS()
-{
+void Graph::DFS() {
 	bool visited[V] = {false};
 
 	// taking loop for the case of disconnected graphs
-	for (int i = 0; i < V; i++)
-	{
+	for (int i = 0; i < V; i++) {
 		if (!visited[i])
 			DFSUtil(i, visited);
 	}
 }
 
-void Graph::BFS(int s)
-{
-	bool visited[V];
-	memset(visited, false, sizeof(visited));
-
-	list<int> queue;
+void Graph::BFS(int s) {
+	bool visited[V] = {};
+	queue<int> q;
 
 	visited[s] = true;
-	queue.push_back(s);
+	q.push(s);
 
-	vector<int>::iterator i;
-
-	while (!queue.empty())
-	{
-		s = queue.front();
+	while (!q.empty()) {
+		s = q.front(); q.pop();
 		cout << s << " ";
-		queue.pop_front();
 
-		for (i = graph[s].begin(); i != graph[s].end(); i++)
-		{
-			if (!visited[*i])
-			{
-				queue.push_back(*i);
-				visited[*i] = true;
+		for (auto& v : graph[s]) {
+			if (!visited[v]) {
+				q.push(v);
+				visited[v] = true;
 			}
 		}
 	}
 }
 
-int main()
-{
+int main() {
 	Graph g(4);
 	g.addEdge(0, 1);
 	g.addEdge(0, 2);
