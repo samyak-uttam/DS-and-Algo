@@ -4,20 +4,16 @@ using namespace std;
 // Find the next Lexicographical greater word(next permutation of the word)
 
 // using stl function
-bool nextPermutation(string &s)
-{
+bool nextPermutation(string &s) {
 	return next_permutation(begin(s), end(s));
 }
 
 // without using stl
-int search(string s, int l, int r, char key)
-{
+int search(string s, int l, int r, char key) {
 	int ind = -1;
-	while (l <= r)
-	{
+	while (l <= r) {
 		int mid = l + (r - l) / 2;
-		if (s[mid] > key)
-		{
+		if (s[mid] > key) {
 			l = mid + 1;
 			ind = mid;
 		}
@@ -27,8 +23,7 @@ int search(string s, int l, int r, char key)
 	return ind;
 }
 
-bool nextPermutation2(string &s)
-{
+bool nextPermutation2(string &s) {
 	int l = s.length(), i = l - 2;
 	while (i >= 0 && s[i] > s[i + 1])
 		i--;
@@ -40,8 +35,21 @@ bool nextPermutation2(string &s)
 	return true;
 }
 
-int main()
-{
+
+// previous permutation
+string prevPermutation(string s) {
+	int ind = s.size() - 1;
+	while (ind > 0 && s[ind] >= s[ind - 1])
+		ind--;
+	if (ind == 0)
+		return "None";
+	int x = lower_bound(s.begin() + ind, s.end(), s[ind - 1]) - s.begin();
+	swap(s[ind - 1], s[x - 1]);
+	reverse(s.begin() + ind, s.end());
+	return s;
+}
+
+int main() {
 	string s = "abmha";
 	bool ans = nextPermutation2(s);
 
